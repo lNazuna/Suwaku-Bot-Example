@@ -1,0 +1,34 @@
+require('dotenv').config();
+
+module.exports = {
+  TOKEN: process.env.TOKEN || '', // Required - Your Discord bot token from https://discord.com/developers/applications
+  GUILD_ID: process.env.GUILD_ID || '', // Optional - Leave blank for global commands, enter server ID for guild-only commands
+  MONGODB_URL: process.env.MONGODB_URL || '',  // Optional - MongoDB connection URL
+  OWNER_ID: process.env.OWNER_ID || '', // Optional - Your Discord user ID for owner-only commands
+  LOGS: {
+    COMMANDS: process.env.LOGS_COMMANDS || '', // Optional - Channel ID for command logs, leave blank to disable
+    ERROR: process.env.LOGS_ERROR || '' // Optional - Webhook URL for error logs
+  },
+  LAVALINK: {
+    NODES: [{
+      identifier: process.env.LAVALINK_IDENTIFIER || 'main', // Node identifier name
+      host: process.env.LAVALINK_HOST || 'localhost', // Lavalink server host
+      port: parseInt(process.env.LAVALINK_PORT) || 2333, // Lavalink server port
+      password: process.env.LAVALINK_PASSWORD || 'youshallnotpass', // Lavalink server password
+      secure: process.env.LAVALINK_SECURE === 'true', // Use secure connection (true/false)
+      retryAmount: 5,
+      retryDelay: 5000
+    }],
+    DEFAULT_VOLUME: parseInt(process.env.DEFAULT_VOLUME) || 80,
+    AUTO_LEAVE: process.env.AUTO_LEAVE !== 'false', // Auto leave voice channel when queue ends (default: true)
+    AUTO_LEAVE_DELAY: parseInt(process.env.AUTO_LEAVE_DELAY) || 30000, // Delay before auto leave in milliseconds (default: 30000 = 30 seconds)
+    ENABLE_SEARCH_CACHE: true,
+    SEARCH_CACHE_SIZE: 1000, // Cache TTL in milliseconds (default: 3600000 = 1 hour)
+    SEARCH_CACHE_TTL: 3600000
+  },
+  PLAYER_CONTROLS: {
+    ENABLED: true, // Enable player controls on now playing message
+    TYPE: 'menu', // 'buttons' or 'menu' - Choose control type
+    CONTROLS: ['pause_resume', 'skip', 'stop', 'volume_down', 'volume_up', 'shuffle', 'loop'] // Available controls to show (order matters for buttons)
+  }
+};
