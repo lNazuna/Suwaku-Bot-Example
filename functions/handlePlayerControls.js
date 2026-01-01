@@ -97,19 +97,19 @@ async function handlePlayerControls(interaction, client) {
                 break;
 
             case 'player_shuffle':
-                if (player.queue && typeof player.queue.shuffle === 'function') {
-                    player.queue.shuffle();
-                    responseMessage = '🔀 Queue shuffled';
+                if (player.queue && !player.queue.isEmpty) {
+                    player.shuffleQueue();
+                    responseMessage = `🔀 Shuffled ${player.queue.size} songs!`;
                 } else {
-                    responseMessage = '🔀 Shuffle not available';
+                    responseMessage = '🔀 Queue is empty!';
                 }
                 break;
 
             case 'player_loop':
-                const currentLoop = player.loop || 'none';
+                const currentLoop = player.loop || 'off';
                 let newLoop, loopEmoji;
 
-                if (currentLoop === 'none') {
+                if (currentLoop === 'off') {
                     newLoop = 'track';
                     loopEmoji = '🔂';
                     responseMessage = `${loopEmoji} Looping current track`;
@@ -118,7 +118,7 @@ async function handlePlayerControls(interaction, client) {
                     loopEmoji = '🔁';
                     responseMessage = `${loopEmoji} Looping queue`;
                 } else {
-                    newLoop = 'none';
+                    newLoop = 'off';
                     loopEmoji = '➡️';
                     responseMessage = `${loopEmoji} Loop disabled`;
                 }
