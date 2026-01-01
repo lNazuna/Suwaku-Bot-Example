@@ -1,4 +1,4 @@
-const { AttachmentBuilder } = require('discord.js');
+const { AttachmentBuilder, MessageFlags } = require('discord.js');
 const { createPlayerControls } = require('./playerControls');
 const { generateCard, initFonts } = require('./generateCard');
 
@@ -8,13 +8,13 @@ async function handlePlayerControls(interaction, client) {
 
     const suwaku = client.suwaku || global.suwaku;
     if (!suwaku) {
-        await interaction.reply({ content: 'Music system not available!', ephemeral: true });
+        await interaction.reply({ content: 'Music system not available!', flags: MessageFlags.Ephemeral });
         return true;
     }
 
     const player = suwaku.getPlayer(interaction.guildId);
     if (!player) {
-        await interaction.reply({ content: 'No music is currently playing!', ephemeral: true });
+        await interaction.reply({ content: 'No music is currently playing!', flags: MessageFlags.Ephemeral });
         return true;
     }
 
@@ -22,7 +22,7 @@ async function handlePlayerControls(interaction, client) {
     const botVoice = interaction.guild.members.me.voice.channel;
 
     if (!memberVoice || (botVoice && memberVoice.id !== botVoice.id)) {
-        await interaction.reply({ content: 'You need to be in the same voice channel!', ephemeral: true });
+        await interaction.reply({ content: 'You need to be in the same voice channel!', flags: MessageFlags.Ephemeral });
         return true;
     }
 
@@ -153,11 +153,11 @@ async function handlePlayerControls(interaction, client) {
             }
         }
 
-        await interaction.reply({ content: responseMessage, ephemeral: true });
+        await interaction.reply({ content: responseMessage, flags: MessageFlags.Ephemeral });
 
     } catch (error) {
         console.error('Error handling control:', error);
-        await interaction.reply({ content: `Error: ${error.message}`, ephemeral: true });
+        await interaction.reply({ content: `Error: ${error.message}`, flags: MessageFlags.Ephemeral });
     }
 
     return true;

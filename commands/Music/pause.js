@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,7 +16,7 @@ module.exports = {
                         .setColor('#FF0000')
                         .setTimestamp()
                         .setFooter({ text: `Requested by ${interaction.user.username}` })],
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
 
@@ -30,7 +30,7 @@ module.exports = {
                         .setColor('#FF0000')
                         .setTimestamp()
                         .setFooter({ text: `Requested by ${interaction.user.username}` })],
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
 
@@ -65,7 +65,7 @@ module.exports = {
                     .setColor('#FF0000')
                     .setTimestamp()
                     .setFooter({ text: `Requested by ${interaction.user.username}` })],
-                ephemeral: true
+                flags: MessageFlags.Ephemeral
             });
         }
     }

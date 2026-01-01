@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js');
 const { formatDuration } = require('../../functions/formatDuration');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
                         .setColor('#FF0000')
                         .setTimestamp()
                         .setFooter({ text: `Requested by ${interaction.user.username}` })],
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
 

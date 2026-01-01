@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, REST, Routes } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, REST, Routes, MessageFlags } = require('discord.js');
 const { TOKEN } = require('../../config');
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
     ownerOnly: true,
 
     async execute(interaction, client) {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         const scope = interaction.options.getString('scope');
         const rest = new REST({ version: '10' }).setToken(TOKEN);
