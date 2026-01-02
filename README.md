@@ -15,7 +15,7 @@ Discord music bot using [Suwaku](https://www.npmjs.com/package/suwaku) (Lavalink
 
 ## Setup
 
-You'll need Node.js 16.9+, Java 17+ and a Lavalink v4 server running.
+You'll need Node.js 18+, Java 17+ and a Lavalink v4 server running.
 
 ```bash
 npm install
