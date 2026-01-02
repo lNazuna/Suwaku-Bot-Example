@@ -35,8 +35,12 @@ npm start
 - `/search <query>` - search tracks
 - `/pause` `/resume` - toggle playback
 - `/skip` - next track
+- `/skipto <position>` - skip to specific position in queue
 - `/stop` - stop and clear queue
+- `/queue` - show queue with pagination
+- `/nowplaying` - current song with synced lyrics card
 - `/volume <0-100>` - change volume
+- `/filter <type>` - apply audio filter (nightcore, vaporwave, bassboost, 8d, karaoke)
 - `/ping` - latency check
 
 ## Player Controls
@@ -52,6 +56,22 @@ PLAYER_CONTROLS: {
   CONTROLS: ['pause_resume', 'skip', 'stop', 'volume_down', 'volume_up', 'shuffle', 'loop']
 }
 ```
+
+## Suwaku Options
+
+All player options are in `config.js` under `LAVALINK`:
+
+```javascript
+SEARCH_ENGINE: 'spotify',       // default search platform
+RETRY_ON_STUCK: true,           // retry when track gets stuck
+LOAD_BALANCER: true,            // distribute load between nodes
+ENABLE_HEALTH_MONITOR: true,    // monitor node health
+HEALTH_CHECK_INTERVAL: 60000,   // health check every 60s
+HISTORY_SIZE: 50,               // tracks to keep for /back
+ENABLE_FILTERS: true            // enable audio filters
+```
+
+See `config.js` for more options (volume, auto-leave, search cache, etc).
 
 ## Structure
 
