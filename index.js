@@ -32,7 +32,14 @@ const suwaku = new SuwakuClient(client, {
   autoLeaveDelay: LAVALINK.AUTO_LEAVE_DELAY,
   enableSearchCache: LAVALINK.ENABLE_SEARCH_CACHE,
   searchCacheSize: LAVALINK.SEARCH_CACHE_SIZE,
-  searchCacheTTL: LAVALINK.SEARCH_CACHE_TTL
+  searchCacheTTL: LAVALINK.SEARCH_CACHE_TTL,
+  searchEngine: LAVALINK.SEARCH_ENGINE,
+  retryOnStuck: LAVALINK.RETRY_ON_STUCK,
+  loadBalancer: LAVALINK.LOAD_BALANCER,
+  enableHealthMonitor: LAVALINK.ENABLE_HEALTH_MONITOR,
+  healthCheckInterval: LAVALINK.HEALTH_CHECK_INTERVAL,
+  historySize: LAVALINK.HISTORY_SIZE,
+  enableFilters: LAVALINK.ENABLE_FILTERS
 });
 
 global.suwaku = suwaku;

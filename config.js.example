@@ -22,9 +22,16 @@ module.exports = {
     DEFAULT_VOLUME: parseInt(process.env.DEFAULT_VOLUME) || 80,
     AUTO_LEAVE: process.env.AUTO_LEAVE !== 'false', // Auto leave voice channel when queue ends (default: true)
     AUTO_LEAVE_DELAY: parseInt(process.env.AUTO_LEAVE_DELAY) || 30000, // Delay before auto leave in milliseconds (default: 30000 = 30 seconds)
-    ENABLE_SEARCH_CACHE: true,
-    SEARCH_CACHE_SIZE: 1000, // Cache TTL in milliseconds (default: 3600000 = 1 hour)
-    SEARCH_CACHE_TTL: 3600000
+    ENABLE_SEARCH_CACHE: true, // Enable/disable search caching
+    SEARCH_CACHE_SIZE: 1000, // Max number of cached searches
+    SEARCH_CACHE_TTL: 3600000, // Cache duration in ms (3600000 = 1 hour)
+    SEARCH_ENGINE: process.env.SEARCH_ENGINE || 'spotify', // Options: youtube, youtubemusic, spotify, soundcloud, deezer
+    RETRY_ON_STUCK: true, // Auto retry when track gets stuck
+    LOAD_BALANCER: true, // Distribute load between multiple nodes
+    ENABLE_HEALTH_MONITOR: true, // Enable node health checks
+    HEALTH_CHECK_INTERVAL: 60000, // Check interval in ms (60000 = 1 minute)
+    HISTORY_SIZE: 50, // Number of previous tracks to keep
+    ENABLE_FILTERS: true // Enable audio filters (nightcore, bassboost, etc)
   },
   PLAYER_CONTROLS: {
     ENABLED: true, // Enable player controls on now playing message
