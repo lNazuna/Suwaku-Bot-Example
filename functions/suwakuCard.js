@@ -12,7 +12,7 @@ async function getSyncedLyrics(trackName, artistName) {
         });
 
         const res = await axios.get(`${LRCLIB_URL}/get?${params.toString()}`, {
-            headers: { 'User-Agent': 'SuwakuBot/1.1.0' },
+            headers: { 'User-Agent': 'SuwakuBot/1.1.1' },
             timeout: 10000
         });
 

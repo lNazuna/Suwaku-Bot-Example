@@ -1,6 +1,6 @@
 {
   "name": "suwaku-bot-example",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Suwaku is a sophisticated Node.js Lavalink client for music playback in Discord bots. It provides a simple yet powerful API for streaming music from multiple platforms and managing playback with advanced features.",
   "main": "index.js",
   "dependencies": {
