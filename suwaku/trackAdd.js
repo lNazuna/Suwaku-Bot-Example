@@ -41,7 +41,7 @@ module.exports = {
                     { name: 'Duration', value: duration, inline: true }
                 )
                 .setTimestamp()
-                .setFooter({ text: `Requested by ${track.requester.user.username || 'Unknown'}` });
+                .setFooter({ text: `Requested by ${track.requester.username || 'Unknown'}` });
 
             textChannel.send({ embeds: [embed] });
         }

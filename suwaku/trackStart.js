@@ -88,7 +88,7 @@ module.exports = {
                 .setThumbnail(thumbnail)
                 .addFields(
                     { name: 'Duration', value: duration, inline: true },
-                    { name: 'Requested by', value: track.requester.user.username || 'Unknown', inline: true }
+                    { name: 'Requested by', value: track.requester.username || 'Unknown', inline: true }
                 )
                 .setTimestamp();
 
