@@ -54,7 +54,7 @@ module.exports = {
             let lyricIdx = 0;
 
             try {
-                lyrics = await getLyricsWithTranslations(songName, artistName, lang);
+                lyrics = await getLyricsWithTranslations(suwaku, player, lang);
                 lyricIdx = getCurrentLyricIndex(lyrics, currentSecs);
             } catch (e) {
                 console.error('[NowPlaying] Lyrics error:', e.message);

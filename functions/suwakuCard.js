@@ -1,65 +1,45 @@
 const { createCanvas, loadImage } = require('@napi-rs/canvas');
 const axios = require('axios');
 
-const LRCLIB_URL = 'https://lrclib.net/api';
 const TRANSLATE_URL = 'https://translate.googleapis.com/translate_a/single';
 
-async function getSyncedLyrics(trackName, artistName) {
+// fetch lyrics via suwaku native manager
+async function fetchLyrics(suwaku, player) {
     try {
-        const params = new URLSearchParams({
-            track_name: trackName,
-            artist_name: artistName,
+        const track = player.current || player.currentTrack;
+        if (!track) return null;
+
+        const lyrics = await suwaku.lyricsManager.get(track, {
+            player,
+            preferSynced: true
         });
 
-        const res = await axios.get(`${LRCLIB_URL}/get?${params.toString()}`, {
-            headers: { 'User-Agent': 'SuwakuBot/1.1.1' },
-            timeout: 10000
-        });
-
-        if (res.data?.syncedLyrics) {
-            return parseLRC(res.data.syncedLyrics);
-        } else if (res.data?.plainLyrics) {
-            return parsePlainLyrics(res.data.plainLyrics);
-        }
-        return [];
+        return lyrics;
     } catch (err) {
-        console.error('LRCLIB Error:', err.message);
-        return [];
+        console.error('Lyrics fetch error:', err.message);
+        return null;
     }
 }
 
-function parseLRC(lrc) {
-    const lines = lrc.split('\n');
-    const lyrics = [];
-    const regex = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
+// convert suwaku lyrics format to our format
+function parseSuwakuLyrics(lyrics) {
+    if (!lyrics || !lyrics.lines) return [];
 
-    for (const line of lines) {
-        const match = line.match(regex);
-        if (match) {
-            const mins = parseInt(match[1], 10);
-            const secs = parseInt(match[2], 10);
-            const ms = parseInt(match[3].padEnd(3, '0'), 10);
-            const startTime = mins * 60 + secs + ms / 1000;
-            const text = line.replace(regex, '').trim();
-
-            if (text) {
-                lyrics.push({ original: text, translation: '', startTime, endTime: 0 });
-            }
-        }
-    }
-
-    for (let i = 0; i < lyrics.length - 1; i++) {
-        lyrics[i].endTime = lyrics[i + 1].startTime;
-    }
-    if (lyrics.length > 0) {
-        lyrics[lyrics.length - 1].endTime = lyrics[lyrics.length - 1].startTime + 10;
-    }
-
-    return lyrics;
+    return lyrics.lines.map((line, i, arr) => {
+        const next = arr[i + 1];
+        return {
+            original: line.text || line.content || '',
+            translation: '',
+            startTime: (line.time || line.startTime || 0) / 1000,
+            endTime: next ? (next.time || next.startTime || 0) / 1000 : ((line.time || 0) / 1000) + 10
+        };
+    });
 }
 
-function parsePlainLyrics(plain) {
-    const lines = plain.split('\n').filter(l => l.trim());
+// fallback for plain lyrics (no timestamps)
+function parsePlainLyrics(text) {
+    if (!text) return [];
+    const lines = text.split('\n').filter(l => l.trim());
     return lines.map((line, i) => ({
         original: line.trim(),
         translation: '',
@@ -97,8 +77,16 @@ async function translateLyrics(lyrics, lang = 'pt') {
     return result;
 }
 
-async function getLyricsWithTranslations(trackName, artistName, lang = 'pt') {
-    const lyrics = await getSyncedLyrics(trackName, artistName);
+async function getLyricsWithTranslations(suwaku, player, lang = 'pt') {
+    const lyricsData = await fetchLyrics(suwaku, player);
+
+    let lyrics = [];
+    if (lyricsData && lyricsData.isSynced && lyricsData.lines) {
+        lyrics = parseSuwakuLyrics(lyricsData);
+    } else if (lyricsData && lyricsData.lyrics) {
+        lyrics = parsePlainLyrics(lyricsData.lyrics);
+    }
+
     if (lyrics.length === 0) {
         return [{ original: 'No lyrics available', translation: 'Letras não disponíveis', startTime: 0, endTime: 999 }];
     }
